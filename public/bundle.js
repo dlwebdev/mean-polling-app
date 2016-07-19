@@ -35628,7 +35628,10 @@
 
 	    this.polls = [];
 	    this.pollData = {
-	      text: ''
+	      name: '',
+	      creatorId: '',
+	      options: [{ text: 'Option 1', val: '' }, { text: 'Option 2', val: '' }],
+	      dateAdded: ''
 	    };
 	    this.pollService = pollService;
 	    this.pollService.getAllPolls()
@@ -35645,7 +35648,10 @@
 
 	      this.pollService.postNewPoll(this.pollData).subscribe(function (res) {
 	        _this2.polls = res;
-	        _this2.pollData.text = '';
+	        _this2.pollData.name = '';
+	        _this2.pollData.creatorId = '';
+	        _this2.pollData.options = [];
+	        _this2.pollData.dateAdded = '';
 	      });
 	    }
 	  }, {
@@ -35656,6 +35662,11 @@
 	      this.pollService.deletePoll(id).subscribe(function (res) {
 	        _this3.polls = res;
 	      });
+	    }
+	  }, {
+	    key: 'addPollOption',
+	    value: function addPollOption() {
+	      console.log("ADDING NEW OPTION!");
 	    }
 	  }]);
 

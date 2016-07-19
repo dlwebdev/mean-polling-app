@@ -7,7 +7,13 @@ class PollingContainerComponent {
   constructor(pollService) {
     this.polls = [];
     this.pollData = {
-      text: ''
+      name: '',
+      creatorId: '',
+      options: [
+        {text: 'Option 1', val: ''},
+        {text: 'Option 2', val: ''}
+      ],
+      dateAdded: ''
     };
     this.pollService = pollService;
     this.pollService.getAllPolls()
@@ -20,7 +26,10 @@ class PollingContainerComponent {
     this.pollService.postNewPoll(this.pollData)
       .subscribe((res) => {
         this.polls = res;
-        this.pollData.text = '';
+        this.pollData.name = '';
+        this.pollData.creatorId = '';
+        this.pollData.options = [];
+        this.pollData.dateAdded = '';
       });
   }
   deletePoll(id) {
@@ -29,6 +38,9 @@ class PollingContainerComponent {
         this.polls = res;
       })
   }
+  addPollOption() {
+    console.log("ADDING NEW OPTION!");
+  }  
 };
 
 PollingContainerComponent.annotations = [

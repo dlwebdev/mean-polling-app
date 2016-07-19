@@ -1,4 +1,7 @@
 // views/templates/PollingContainerComponent.jade
+pre
+  {{pollData | json}}
+
 .container
   .jumbotron.text-center
     h1 Polling System
@@ -18,7 +21,14 @@
     .col-sm-6.col-sm-offset-3
       form(on-ngSubmit='createPoll()')
         .form-group
-          input.form-control.input-lg.text-center(type='text' placeholder='What to do next?' bindon-ngModel='pollData.text' required)
+          input.form-control.input-lg.text-center(type='text' placeholder='Name for this poll' bindon-ngModel='pollData.text' required)
+          div(*ngFor="var option of pollData.options")
+            input.form-control.input-lg.text-center(type='text' placeholder='option.text')
+            | Index: {{index}}
+            | Name: {{option.text}}
         .form-group.text-center
           br
-          button.btn.btn-success.btn-lg(type='submit') Do Something
+          button.btn.btn-default.btn-lg(type='button' on-click='addPollOption()') Add Poll Option          
+          br
+          br
+          button.btn.btn-success.btn-lg(type='submit') Save
