@@ -498,15 +498,17 @@
 
 	var _TodoComponent = __webpack_require__(246);
 
-	// webpack/js/boot.js
+	var _PollingContainerComponent = __webpack_require__(265);
+
+	// Angular magic to bootstrap the application in a web browser
 
 
 	var boot = document.addEventListener('DOMContentLoaded', function () {
-	  (0, _browser.bootstrap)(_TodoComponent.TodoComponent);
+	  (0, _browser.bootstrap)(_PollingContainerComponent.PollingContainerComponent);
 	});
 
 	// Expose boot so it can be required by webpack.
-	// Angular magic to bootstrap the application in a web browser
+	// webpack/js/boot.js
 	module.exports = boot;
 
 /***/ },
@@ -35593,6 +35595,153 @@
 	    return MapSubscriber;
 	}(Subscriber_1.Subscriber);
 	//# sourceMappingURL=map.js.map
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.PollingContainerComponent = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/TodoComponent.js
+	// Import Component and View constructor (for metadata)
+	// We're using http in our PollService, but we can only specify providers in the component
+
+
+	var _core = __webpack_require__(41);
+
+	var _http = __webpack_require__(247);
+
+	var _PollService = __webpack_require__(266);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var PollingContainerComponent = function () {
+	  function PollingContainerComponent(pollService) {
+	    var _this = this;
+
+	    _classCallCheck(this, PollingContainerComponent);
+
+	    this.polls = [];
+	    this.pollData = {
+	      text: ''
+	    };
+	    this.pollService = pollService;
+	    this.pollService.getAllPolls()
+	    // Rxjs, we subscribe to the response
+	    .subscribe(function (res) {
+	      _this.polls = res;
+	    });
+	  }
+
+	  _createClass(PollingContainerComponent, [{
+	    key: 'createPoll',
+	    value: function createPoll() {
+	      var _this2 = this;
+
+	      this.pollService.postNewPoll(this.pollData).subscribe(function (res) {
+	        _this2.polls = res;
+	        _this2.pollData.text = '';
+	      });
+	    }
+	  }, {
+	    key: 'deletePoll',
+	    value: function deletePoll(id) {
+	      var _this3 = this;
+
+	      this.pollService.deletePoll(id).subscribe(function (res) {
+	        _this3.polls = res;
+	      });
+	    }
+	  }]);
+
+	  return PollingContainerComponent;
+	}();
+
+	;
+
+	PollingContainerComponent.annotations = [new _core.Component({
+	  selector: 'polling-app', // Tag to show app
+	  providers: [_PollService.PollService, _http.HTTP_PROVIDERS], // Lets Angular know about PollService and Http
+	  templateUrl: 'templates/PollingContainerComponent' // Our template, we'll create this next
+	})];
+
+	PollingContainerComponent.parameters = [[_PollService.PollService]];
+
+	exports.PollingContainerComponent = PollingContainerComponent;
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.PollService = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/PollService.js
+	// Allows us to inject a dependency into a module that's not a component
+
+
+	var _core = __webpack_require__(41);
+
+	var _http = __webpack_require__(247);
+
+	__webpack_require__(263);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	// Allows us to map the HTTP response from raw to JSON format
+
+	var PollService = function () {
+	  function PollService(http) {
+	    _classCallCheck(this, PollService);
+
+	    this.http = http; // http is an instance of the main Http class
+	  }
+
+	  _createClass(PollService, [{
+	    key: 'getAllPolls',
+	    value: function getAllPolls() {
+	      return this.http.get('/polls').map(function (res) {
+	        return JSON.parse(res._body);
+	      });
+	    }
+	  }, {
+	    key: 'postNewPoll',
+	    value: function postNewPoll(data) {
+	      var headers = new _http.Headers();
+	      headers.append('Content-Type', 'application/json'); // Set JSON header so that data is parsed by bodyParser on the backend
+	      return this.http.post('/polls', JSON.stringify(data), {
+	        headers: headers
+	      }).map(function (res) {
+	        return JSON.parse(res._body);
+	      });
+	    }
+	  }, {
+	    key: 'deletePoll',
+	    value: function deletePoll(id) {
+	      return this.http.delete('/polls/' + id).map(function (res) {
+	        return JSON.parse(res._body);
+	      });
+	    }
+	  }]);
+
+	  return PollService;
+	}();
+
+	// Declares that Http should be injected each time a new instance of PollService is created
+
+
+	PollService.parameters = [new _core.Inject(_http.Http)];
+
+	exports.PollService = PollService;
 
 /***/ }
 /******/ ]);

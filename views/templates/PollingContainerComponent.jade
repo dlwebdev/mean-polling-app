@@ -1,0 +1,24 @@
+// views/templates/PollingContainerComponent.jade
+.container
+  .jumbotron.text-center
+    h1 Polling System
+  .row
+    .col-sm-6.col-sm-offset-3
+      table.table.table-bordered
+        thead
+          tr
+            th.text-center There are {{polls.length}} Current Polls
+        tbody
+          tr(*ngFor="var poll of polls")
+            td
+              input(type='checkbox' on-click='deletePoll(poll._id)' bind-checked="false")
+              | &nbsp;&nbsp;
+              | {{poll.text}}
+  .row
+    .col-sm-6.col-sm-offset-3
+      form(on-ngSubmit='createPoll()')
+        .form-group
+          input.form-control.input-lg.text-center(type='text' placeholder='What to do next?' bindon-ngModel='pollData.text' required)
+        .form-group.text-center
+          br
+          button.btn.btn-success.btn-lg(type='submit') Do Something

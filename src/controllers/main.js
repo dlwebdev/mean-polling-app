@@ -1,5 +1,6 @@
 // src/controllers/main.js
 import Todo from '../models/Todo'; // Import the Todo model so we can query the DB
+import Poll from '../models/Poll'; // Import the Todo model so we can query the DB
 
 let mainController = {
   getIndex: (req, res) => {
@@ -9,6 +10,49 @@ let mainController = {
   // Allows us to access our Angular templates (more on that later)
   getTemplate: (req, res) => {
     res.render('templates/' + req.params.template);
+  },
+  getAllPolls: (req, res) => {
+    Poll.find({}, (err, polls) => {
+      if (err) {
+        // Send the error to the client if there is one
+        return res.send(err);
+      }
+      // Send polls in JSON format
+      res.json(polls);
+    });
+  },
+  postNewPoll: (req, res) => {
+    // This creates a new poll using POSTed data (in req.body)
+    Poll.create({
+      text: req.body.text,
+      done: false
+    }, (err, poll) => {
+      if (err) {
+        return res.send(err);
+      }
+      Poll.find({}, (err, polls) => {
+        if (err) {
+          return res.send(err);
+        }
+        // Send list of all polls after new one has been created and saved
+        res.json(polls);
+      });
+    });
+  },
+  deletePoll: (req, res) => {
+    Poll.remove({
+      _id: req.params.id
+    }, (err, poll) => {
+      if (err) {
+        return res.send(err);
+      }
+      Poll.find({}, (err, polls) => {
+        if (err) {
+          return res.send(err);
+        }
+        res.json(polls);
+      });
+    });
   },
   // This gets all Todos in the collection and sends it back in JSON format
   getAllTodos: (req, res) => {

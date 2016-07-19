@@ -40,9 +40,15 @@ app.use(methodOverride()); // Allow PUT/DELETE
  */
 app.get('/', mainController.getIndex);
 app.get('/templates/:template', mainController.getTemplate);
+
+app.get('/polls', mainController.getAllPolls);
+app.post('/polls', mainController.postNewPoll);
+app.delete('/polls/:id', mainController.deletePoll);
+
 app.get('/todos', mainController.getAllTodos);
 app.post('/todos', mainController.postNewTodo);
 app.delete('/todos/:id', mainController.deleteTodo);
+
 
 /**
  * Start app
