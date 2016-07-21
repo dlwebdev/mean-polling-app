@@ -5,13 +5,13 @@ The entire app in written in ES6 (ES2015 or Harmony or ESNext). It uses the Babe
 
 ## File Structure explained
 mean
-- src // ES6 backend code
---- controllers // Controllers directory - handle the routes for our REST API
---- models // Mongoose models directory - Mongoose will use this model to create a collection in MongoDB
-- views // Jade views
---- templates // Angular templates
-- webpack // frontend code
---- js // frontend JS
+* src // ES6 backend code
+    * controllers // Controllers directory - handle the routes for our REST API
+    * models // Mongoose models directory - Mongoose will use this model to create a collection in MongoDB
+* views // Jade views
+    * templates // Angular templates
+* webpack // frontend code
+    * js // frontend JS
 
 ## TO RUN
 npm install     // Installs project dependencies with npm into node_modules folder
