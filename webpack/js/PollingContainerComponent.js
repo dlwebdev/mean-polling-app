@@ -10,8 +10,8 @@ class PollingContainerComponent {
       name: '',
       creatorId: '',
       options: [
-        {text: 'Option 1', val: ''},
-        {text: 'Option 2', val: ''}
+        {text: 'Option 1', val: 0},
+        {text: 'Option 2', val: 0}
       ],
       dateAdded: ''
     };
@@ -28,7 +28,10 @@ class PollingContainerComponent {
         this.polls = res;
         this.pollData.name = '';
         this.pollData.creatorId = '';
-        this.pollData.options = [];
+        this.pollData.options = [
+          {text: 'Option 1', val: 0},
+          {text: 'Option 2', val: 0}
+        ],
         this.pollData.dateAdded = '';
       });
   }
@@ -39,15 +42,15 @@ class PollingContainerComponent {
       })
   }
   addPollOption() {
-    console.log("ADDING NEW OPTION!");
+    this.pollData.options.push({text: '', val: 0});
   }  
 };
 
 PollingContainerComponent.annotations = [
   new Component({
-    selector: 'polling-app', // Tag to show app
-    providers: [PollService, HTTP_PROVIDERS], // Lets Angular know about PollService and Http
-    templateUrl: 'templates/PollingContainerComponent' // Our template, we'll create this next
+    selector: 'polling-app',
+    providers: [PollService, HTTP_PROVIDERS],
+    templateUrl: 'templates/PollingContainerComponent'
   }),
 ];
 

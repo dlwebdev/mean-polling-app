@@ -496,11 +496,9 @@
 
 	var _browser = __webpack_require__(18);
 
-	var _TodoComponent = __webpack_require__(246);
+	var _PollingContainerComponent = __webpack_require__(246);
 
-	var _PollingContainerComponent = __webpack_require__(265);
-
-	// Angular magic to bootstrap the application in a web browser
+	// webpack/js/boot.js
 
 
 	var boot = document.addEventListener('DOMContentLoaded', function () {
@@ -508,7 +506,7 @@
 	});
 
 	// Expose boot so it can be required by webpack.
-	// webpack/js/boot.js
+	// Angular magic to bootstrap the application in a web browser
 	module.exports = boot;
 
 /***/ },
@@ -33591,74 +33589,84 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.TodoComponent = undefined;
+	exports.PollingContainerComponent = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/TodoComponent.js
 	// Import Component and View constructor (for metadata)
-	// We're using http in our TodoService, but we can only specify providers in the component
+	// We're using http in our PollService, but we can only specify providers in the component
 
 
 	var _core = __webpack_require__(41);
 
 	var _http = __webpack_require__(247);
 
-	var _TodoService = __webpack_require__(262);
+	var _PollService = __webpack_require__(262);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var TodoComponent = function () {
-	  function TodoComponent(todoService) {
+	var PollingContainerComponent = function () {
+	  function PollingContainerComponent(pollService) {
 	    var _this = this;
 
-	    _classCallCheck(this, TodoComponent);
+	    _classCallCheck(this, PollingContainerComponent);
 
-	    this.todos = [];
-	    this.todoData = {
-	      text: ''
+	    this.polls = [];
+	    this.pollData = {
+	      name: '',
+	      creatorId: '',
+	      options: [{ text: 'Option 1', val: 0 }, { text: 'Option 2', val: 0 }],
+	      dateAdded: ''
 	    };
-	    this.todoService = todoService;
-	    this.todoService.getAllTodos()
+	    this.pollService = pollService;
+	    this.pollService.getAllPolls()
 	    // Rxjs, we subscribe to the response
 	    .subscribe(function (res) {
-	      _this.todos = res;
+	      _this.polls = res;
 	    });
 	  }
 
-	  _createClass(TodoComponent, [{
-	    key: 'createTodo',
-	    value: function createTodo() {
+	  _createClass(PollingContainerComponent, [{
+	    key: 'createPoll',
+	    value: function createPoll() {
 	      var _this2 = this;
 
-	      this.todoService.postNewTodo(this.todoData).subscribe(function (res) {
-	        _this2.todos = res;
-	        _this2.todoData.text = '';
+	      this.pollService.postNewPoll(this.pollData).subscribe(function (res) {
+	        _this2.polls = res;
+	        _this2.pollData.name = '';
+	        _this2.pollData.creatorId = '';
+	        _this2.pollData.options = [{ text: 'Option 1', val: 0 }, { text: 'Option 2', val: 0 }], _this2.pollData.dateAdded = '';
 	      });
 	    }
 	  }, {
-	    key: 'deleteTodo',
-	    value: function deleteTodo(id) {
+	    key: 'deletePoll',
+	    value: function deletePoll(id) {
 	      var _this3 = this;
 
-	      this.todoService.deleteTodo(id).subscribe(function (res) {
-	        _this3.todos = res;
+	      this.pollService.deletePoll(id).subscribe(function (res) {
+	        _this3.polls = res;
 	      });
+	    }
+	  }, {
+	    key: 'addPollOption',
+	    value: function addPollOption() {
+	      this.pollData.options.push({ text: '', val: 0 });
 	    }
 	  }]);
 
-	  return TodoComponent;
+	  return PollingContainerComponent;
 	}();
 
 	;
 
-	TodoComponent.annotations = [new _core.Component({
-	  selector: 'todo-app', // Tag to show app
-	  providers: [_TodoService.TodoService, _http.HTTP_PROVIDERS], // Lets Angular know about TodoService and Http
-	  templateUrl: 'templates/TodoComponent' // Our template, we'll create this next
+	PollingContainerComponent.annotations = [new _core.Component({
+	  selector: 'polling-app',
+	  providers: [_PollService.PollService, _http.HTTP_PROVIDERS],
+	  templateUrl: 'templates/PollingContainerComponent'
 	})];
 
-	TodoComponent.parameters = [[_TodoService.TodoService]];
+	PollingContainerComponent.parameters = [[_PollService.PollService]];
 
-	exports.TodoComponent = TodoComponent;
+	exports.PollingContainerComponent = PollingContainerComponent;
 
 /***/ },
 /* 247 */
@@ -35459,9 +35467,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.TodoService = undefined;
+	exports.PollService = undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/TodoService.js
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/PollService.js
 	// Allows us to inject a dependency into a module that's not a component
 
 
@@ -35475,49 +35483,49 @@
 
 	// Allows us to map the HTTP response from raw to JSON format
 
-	var TodoService = function () {
-	  function TodoService(http) {
-	    _classCallCheck(this, TodoService);
+	var PollService = function () {
+	  function PollService(http) {
+	    _classCallCheck(this, PollService);
 
 	    this.http = http; // http is an instance of the main Http class
 	  }
 
-	  _createClass(TodoService, [{
-	    key: 'getAllTodos',
-	    value: function getAllTodos() {
-	      return this.http.get('/todos').map(function (res) {
+	  _createClass(PollService, [{
+	    key: 'getAllPolls',
+	    value: function getAllPolls() {
+	      return this.http.get('/polls').map(function (res) {
 	        return JSON.parse(res._body);
 	      });
 	    }
 	  }, {
-	    key: 'postNewTodo',
-	    value: function postNewTodo(data) {
+	    key: 'postNewPoll',
+	    value: function postNewPoll(data) {
 	      var headers = new _http.Headers();
 	      headers.append('Content-Type', 'application/json'); // Set JSON header so that data is parsed by bodyParser on the backend
-	      return this.http.post('/todos', JSON.stringify(data), {
+	      return this.http.post('/polls', JSON.stringify(data), {
 	        headers: headers
 	      }).map(function (res) {
 	        return JSON.parse(res._body);
 	      });
 	    }
 	  }, {
-	    key: 'deleteTodo',
-	    value: function deleteTodo(id) {
-	      return this.http.delete('/todos/' + id).map(function (res) {
+	    key: 'deletePoll',
+	    value: function deletePoll(id) {
+	      return this.http.delete('/polls/' + id).map(function (res) {
 	        return JSON.parse(res._body);
 	      });
 	    }
 	  }]);
 
-	  return TodoService;
+	  return PollService;
 	}();
 
-	// Declares that Http should be injected each time a new instance of TodoService is created
+	// Declares that Http should be injected each time a new instance of PollService is created
 
 
-	TodoService.parameters = [new _core.Inject(_http.Http)];
+	PollService.parameters = [new _core.Inject(_http.Http)];
 
-	exports.TodoService = TodoService;
+	exports.PollService = PollService;
 
 /***/ },
 /* 263 */
@@ -35595,164 +35603,6 @@
 	    return MapSubscriber;
 	}(Subscriber_1.Subscriber);
 	//# sourceMappingURL=map.js.map
-
-/***/ },
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.PollingContainerComponent = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/TodoComponent.js
-	// Import Component and View constructor (for metadata)
-	// We're using http in our PollService, but we can only specify providers in the component
-
-
-	var _core = __webpack_require__(41);
-
-	var _http = __webpack_require__(247);
-
-	var _PollService = __webpack_require__(266);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var PollingContainerComponent = function () {
-	  function PollingContainerComponent(pollService) {
-	    var _this = this;
-
-	    _classCallCheck(this, PollingContainerComponent);
-
-	    this.polls = [];
-	    this.pollData = {
-	      name: '',
-	      creatorId: '',
-	      options: [{ text: 'Option 1', val: '' }, { text: 'Option 2', val: '' }],
-	      dateAdded: ''
-	    };
-	    this.pollService = pollService;
-	    this.pollService.getAllPolls()
-	    // Rxjs, we subscribe to the response
-	    .subscribe(function (res) {
-	      _this.polls = res;
-	    });
-	  }
-
-	  _createClass(PollingContainerComponent, [{
-	    key: 'createPoll',
-	    value: function createPoll() {
-	      var _this2 = this;
-
-	      this.pollService.postNewPoll(this.pollData).subscribe(function (res) {
-	        _this2.polls = res;
-	        _this2.pollData.name = '';
-	        _this2.pollData.creatorId = '';
-	        _this2.pollData.options = [];
-	        _this2.pollData.dateAdded = '';
-	      });
-	    }
-	  }, {
-	    key: 'deletePoll',
-	    value: function deletePoll(id) {
-	      var _this3 = this;
-
-	      this.pollService.deletePoll(id).subscribe(function (res) {
-	        _this3.polls = res;
-	      });
-	    }
-	  }, {
-	    key: 'addPollOption',
-	    value: function addPollOption() {
-	      console.log("ADDING NEW OPTION!");
-	    }
-	  }]);
-
-	  return PollingContainerComponent;
-	}();
-
-	;
-
-	PollingContainerComponent.annotations = [new _core.Component({
-	  selector: 'polling-app', // Tag to show app
-	  providers: [_PollService.PollService, _http.HTTP_PROVIDERS], // Lets Angular know about PollService and Http
-	  templateUrl: 'templates/PollingContainerComponent' // Our template, we'll create this next
-	})];
-
-	PollingContainerComponent.parameters = [[_PollService.PollService]];
-
-	exports.PollingContainerComponent = PollingContainerComponent;
-
-/***/ },
-/* 266 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.PollService = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // webpack/js/PollService.js
-	// Allows us to inject a dependency into a module that's not a component
-
-
-	var _core = __webpack_require__(41);
-
-	var _http = __webpack_require__(247);
-
-	__webpack_require__(263);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	// Allows us to map the HTTP response from raw to JSON format
-
-	var PollService = function () {
-	  function PollService(http) {
-	    _classCallCheck(this, PollService);
-
-	    this.http = http; // http is an instance of the main Http class
-	  }
-
-	  _createClass(PollService, [{
-	    key: 'getAllPolls',
-	    value: function getAllPolls() {
-	      return this.http.get('/polls').map(function (res) {
-	        return JSON.parse(res._body);
-	      });
-	    }
-	  }, {
-	    key: 'postNewPoll',
-	    value: function postNewPoll(data) {
-	      var headers = new _http.Headers();
-	      headers.append('Content-Type', 'application/json'); // Set JSON header so that data is parsed by bodyParser on the backend
-	      return this.http.post('/polls', JSON.stringify(data), {
-	        headers: headers
-	      }).map(function (res) {
-	        return JSON.parse(res._body);
-	      });
-	    }
-	  }, {
-	    key: 'deletePoll',
-	    value: function deletePoll(id) {
-	      return this.http.delete('/polls/' + id).map(function (res) {
-	        return JSON.parse(res._body);
-	      });
-	    }
-	  }]);
-
-	  return PollService;
-	}();
-
-	// Declares that Http should be injected each time a new instance of PollService is created
-
-
-	PollService.parameters = [new _core.Inject(_http.Http)];
-
-	exports.PollService = PollService;
 
 /***/ }
 /******/ ]);

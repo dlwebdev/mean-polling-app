@@ -1,13 +1,8 @@
-// Import the Poll model so we can query the DB
-import Poll from '../models/Poll';
+import Poll from '../models/Poll'; // Import the Poll model so we can query the DB
 
-let mainController = {
+let pollController = {
   getIndex: (req, res) => {
     res.render('index'); // Compiles the file named "index" in the views directory (`/views`) using the view engine (Jade).
-    // We'll create this Jade file later
-  },
-  getRootTemplate: (req, res) => {
-    res.render(req.params.template); // Compiles the file named "home" in the views directory (`/views/templates`) using the view engine (Jade).
     // We'll create this Jade file later
   },
   // Allows us to access our Angular templates (more on that later)
@@ -22,16 +17,6 @@ let mainController = {
       }
       // Send polls in JSON format
       res.json(polls);
-    });
-  },
-  retrievePoll: (req, res) => {
-    Poll.find({_id: req.params.id}, (err, poll) => {
-      if (err) {
-        // Send the error to the client if there is one
-        return res.send(err);
-      }
-      // Send poll in JSON format
-      res.json(poll);
     });
   },
   postNewPoll: (req, res) => {
@@ -72,4 +57,4 @@ let mainController = {
   }
 }
 
-export default mainController;
+export default pollController;
