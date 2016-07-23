@@ -6,12 +6,20 @@ let config = {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+  },  
   module: {
     loaders: [
       {
         test: /\.js$/, // Transpile all .js files from ES6 to ES5
         loaders: ['babel-loader']
       },
+      {
+        test: /\.ts$/, // Transpile all .js files from ES6 to ES5
+        loaders: ['ts-loader'],
+        exclude: /node_modules/
+      },      
       {
         test: /\.css$/, // Use the style-loader for all .css files
         loaders: ['style', 'css']

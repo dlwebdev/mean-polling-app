@@ -12,12 +12,13 @@
     "babel:w": "babel -w src --out-dir lib",
     "webpack": "webpack",
     "webpack:w": "webpack --watch",
-    "postinstall": "npm run babel && npm run webpack",
+    "postinstall": "typings install && npm run babel && npm run webpack",
     "start": "node lib/app"
   },
   "license": "ISC",
   "dependencies": {
-    "angular2": "2.0.0-beta.15",
+    "angular2": "^2.0.0-beta.15",
+    
     "babel": "^6.5.2",
     "babel-cli": "6.7.7",
     "babel-core": "6.7.7",
@@ -36,14 +37,21 @@
     "method-override": "2.3.5",
     "moment": "^2.14.1",
     "mongoose": "4.4.13",
+    "mongoose-unique-validator": "^1.0.2",
     "morgan": "1.7.0",
     "passport": "^0.3.2",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.2",
+    "rxjs": "^5.0.0-beta.6",
     "script-loader": "0.6.1",
     "style-loader": "0.13.0",
     "systemjs": "0.19.26",
+    "ts": "0.0.0",
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
     "webpack": "1.13.0",
     "zone.js": "0.6.10"
+  },
+  "devDependencies": {
+    "ts-loader": "^0.8.2"
   }
 }
